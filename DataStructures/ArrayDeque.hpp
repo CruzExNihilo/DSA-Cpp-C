@@ -1,11 +1,12 @@
-#include <iostream>
-#include <vector>
+/*ring-buffer-based deque*/
+#pragma once
 #include <stdexcept>
+#include <vector>
 
 using std::vector;
 using std::move;
 
-class MyCircularQueue {
+class MyCircularArrayDeque {
 private:
     size_t front;
     size_t rear;
@@ -26,31 +27,33 @@ private:
     }
 
 public:
-    MyCircularQueue() : MyCircularQueue(4) {}
+    MyCircularArrayDeque() : MyCircularArrayDeque(4) {}
     // delegating constructor
-    explicit MyCircularQueue(size_t capacity) : 
-        front(0), rear(0), arr(capacity), size_(0) {}
+    explicit MyCircularArrayDeque(size_t capacity) : 
+        front(0), rear(0), arr(capacity < 4 ? 4: capacity), size_(0) {}
 
-    ~MyCircularQueue() = default;
+    ~MyCircularArrayDeque() = default;
 
-    void addFront(int val) {
+    // O(1)
+    void push_front(const int& value) {
         if (isFull()) resize(2 * arr.size());
         // minus 1 to move forward and add size to prevent underflow
         front = (front - 1 + arr.size()) % arr.size();
-        arr[front] = val;
+        arr[front] = value;
         size_++;
     }
 
-    void addRear(int val) {
+    void push_back(const int& value) {
         if (isFull()) resize(2 * arr.size());
         
-        arr[rear] = val;
+        arr[rear] = value;
         rear = (rear + 1) % arr.size();
         size_++;
     }
 
-    void removeFront() {
-        if (isEmpty()) throw std::runtime_error("Queue is empty");
+    // O(1)
+    void pop_front() {
+        if (isEmpty()) throw std::runtime_error("deque is empty");
         
         front = (front + 1) % arr.size();
         size_--;
@@ -61,8 +64,8 @@ public:
         }
     }
 
-    void removeRear() {
-        if (isEmpty()) throw std::runtime_error("Queue is empty");
+    void pop_back() {
+        if (isEmpty()) throw std::runtime_error("deque is empty");
         
         rear = (rear - 1 + arr.size()) % arr.size();
         size_--;
@@ -72,13 +75,13 @@ public:
         }
     }
 
-    int getFront() const {
-        if (isEmpty()) throw std::runtime_error("Queue is empty");
+    int front() const {
+        if (isEmpty()) throw std::runtime_error("deque is empty");
         return arr[front];
     }
 
-    int getRear() const {
-        if (isEmpty()) throw std::runtime_error("Queue is empty");
+    int back() const {
+        if (isEmpty()) throw std::runtime_error("deque is empty");
         // add size to prevent rear -1 causing index underflow 
         return arr[(rear - 1 + arr.size()) % arr.size()];
     }

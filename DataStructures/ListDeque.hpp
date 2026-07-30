@@ -1,5 +1,5 @@
 /*doubly-linked-list-based deque */
-#include <iostream>
+#pragma once
 #include <stdexcept>
 #include <list>
 

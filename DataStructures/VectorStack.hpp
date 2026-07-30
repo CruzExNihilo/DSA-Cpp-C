@@ -1,17 +1,17 @@
-/*list-based stack */
-#include <iostream>
+/*vector-based stack */
+#pragma once
 #include <stdexcept>
-#include <list>
+#include <vector>
 
-using std::list;
+using std::vector;
 
-class MyListStack{
+class MyVectorStack{
 private:
-    list<int> stack;
+    vector<int> stack;
 
 public:
-    MyListStack() = default;
-    ~MyListStack() = default;
+    MyVectorStack() = default;
+    ~MyVectorStack() = default;
 
     void push(const int& value) {
         stack.push_back(value);

@@ -1,31 +1,29 @@
-/*vector-based queue */
-#include <iostream>
+/*list-based queue */
+#pragma once
 #include <stdexcept>
-#include <vector>
+#include <list>
+using std::list;
 
-class MyVectorQueue {
+class MyListQueue {
 private:
-    std::vector<int> queue;
+    list<int> queue;
 
 public:
-    MyVectorQueue() = default;
-    ~MyVectorQueue() = default;
-
     void enqueue(const int& value) {
         queue.push_back(value);
     }
 
     void dequeue() {
         if (isEmpty()) {
-            throw std::out_of_range("Queue is empty");
-        }
-        queue.erase(queue.begin());
+            throw std::out_of_range("queue is empty");
+        } 
+        queue.pop_front();
     }
 
     int front() const {
         if (isEmpty()) {
-            throw std::out_of_range("Queue is empty");
-        }
+            throw std::out_of_range("queue is empty");
+        } 
         return queue.front();
     }
 
